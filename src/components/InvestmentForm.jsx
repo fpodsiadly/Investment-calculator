@@ -2,20 +2,34 @@ import React, { useState } from 'react'
 import { calculateInvestmentResults } from '../util/investment'
 
 function InvestmentForm({ onCalculate }) {
-  const [initialInvestment, setInitialInvestment] = useState('')
-  const [annualInvestment, setAnnualInvestment] = useState('')
-  const [expectedReturn, setExpectedReturn] = useState('')
-  const [duration, setDuration] = useState('')
+  const [formData, setFormData] = useState({
+    initialInvestment: '150000',
+    annualInvestment: '900',
+    expectedReturn: '5.5',
+    duration: '12',
+  })
+
+  const updateFormData = (e) => {
+    const { id, value } = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [id.replace(/-([a-z])/g, (_, m) => m.toUpperCase())]: value,
+    }))
+  }
 
   const calculateHandler = (event) => {
     event.preventDefault()
     const calculatedResults = calculateInvestmentResults({
-      initialInvestment: +initialInvestment,
-      annualInvestment: +annualInvestment,
-      expectedReturn: +expectedReturn,
-      duration: +duration,
+      initialInvestment: +formData.initialInvestment,
+      annualInvestment: +formData.annualInvestment,
+      expectedReturn: +formData.expectedReturn,
+      duration: +formData.duration,
     })
-    onCalculate(calculatedResults, +initialInvestment, +annualInvestment)
+    onCalculate(
+      calculatedResults,
+      +formData.initialInvestment,
+      +formData.annualInvestment
+    )
   }
 
   return (
@@ -26,8 +40,8 @@ function InvestmentForm({ onCalculate }) {
           <input
             type="number"
             id="initial-investment"
-            value={initialInvestment}
-            onChange={(e) => setInitialInvestment(e.target.value)}
+            value={formData.initialInvestment}
+            onChange={updateFormData}
           />
         </div>
         <div>
@@ -35,8 +49,8 @@ function InvestmentForm({ onCalculate }) {
           <input
             type="number"
             id="annual-investment"
-            value={annualInvestment}
-            onChange={(e) => setAnnualInvestment(e.target.value)}
+            value={formData.annualInvestment}
+            onChange={updateFormData}
           />
         </div>
       </div>
@@ -46,8 +60,8 @@ function InvestmentForm({ onCalculate }) {
           <input
             type="number"
             id="expected-return"
-            value={expectedReturn}
-            onChange={(e) => setExpectedReturn(e.target.value)}
+            value={formData.expectedReturn}
+            onChange={updateFormData}
           />
         </div>
         <div>
@@ -55,8 +69,8 @@ function InvestmentForm({ onCalculate }) {
           <input
             type="number"
             id="duration"
-            value={duration}
-            onChange={(e) => setDuration(e.target.value)}
+            value={formData.duration}
+            onChange={updateFormData}
           />
         </div>
       </div>

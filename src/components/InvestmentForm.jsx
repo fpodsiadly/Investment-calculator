@@ -3,10 +3,10 @@ import { calculateInvestmentResults } from '../util/investment'
 
 function InvestmentForm({ onCalculate }) {
   const [formData, setFormData] = useState({
-    initialInvestment: '150000',
-    annualInvestment: '900',
-    expectedReturn: '5.5',
-    duration: '12',
+    initialInvestment: 15000,
+    annualInvestment: 900,
+    expectedReturn: 5.5,
+    duration: 12,
   })
 
   const updateFormData = (e) => {

@@ -9,6 +9,8 @@ function InvestmentForm({ onCalculate }) {
     duration: 12,
   })
 
+  const inputIsValid = formData.duration >= 1
+
   const updateFormData = (e) => {
     const { id, value } = e.target
     setFormData((prevData) => ({
@@ -28,7 +30,8 @@ function InvestmentForm({ onCalculate }) {
     onCalculate(
       calculatedResults,
       +formData.initialInvestment,
-      +formData.annualInvestment
+      +formData.annualInvestment,
+      inputIsValid
     )
   }
 
@@ -75,7 +78,10 @@ function InvestmentForm({ onCalculate }) {
         </div>
       </div>
       <div className="center">
-        <button type="submit">Calculate</button>
+        {!inputIsValid && (
+          <p className="center">Please enter a duration greater than zero.</p>
+        )}
+        {inputIsValid && <button type="submit">Calculate</button>}
       </div>
     </form>
   )
